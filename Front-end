@@ -1,0 +1,49 @@
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/pay", methods=["GET", "POST"])
+def pay():
+    if request.method == "GET":
+        return """
+        <html>
+            <body>
+                <form action="/pay" method="post">
+                    <label for="amount">Amount:</label>
+                    <input type="text" id="amount" name="amount">
+                    <br><br>
+                    <label for="payment_method">Payment Method:</label>
+                    <select id="payment_method" name="payment_method">
+                        <option value="credit_card">Credit Card</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="crypto_currency">Crypto Currency</option>
+                    </select>
+                    <br><br>
+                    <input type="submit" value="Pay">
+                </form>
+            </body>
+        </html>
+        """
+    else:
+        amount = float(request.form["amount"])
+        payment_method = request.form["payment_method"]
+
+        if payment_method == "credit_card":
+            payment_method = CreditCard()
+        elif payment_method == "paypal":
+            payment_method = PayPal()
+        elif payment_method == "crypto_currency":
+            payment_method = CryptoCurrency("Bitcoin")
+
+        payment = Payment(amount)
+        payment.pay(payment_method)
+
+        return "Payment Successful!"
+
+if __name__ == "__main__":
+    app.run()
+
+
+
+
+

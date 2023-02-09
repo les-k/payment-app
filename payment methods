@@ -1,0 +1,42 @@
+class Payment:
+    def __init__(self, amount):
+        self.amount = amount
+
+    def pay(self, payment_method):
+        payment_method.process_payment(self.amount)
+
+
+class CreditCard:
+    def process_payment(self, amount):
+        print(f"Paying {amount} using credit card")
+
+
+class PayPal:
+    def process_payment(self, amount):
+        print(f"Paying {amount} using PayPal")
+
+
+class CryptoCurrency:
+    def __init__(self, currency):
+        self.currency = currency
+
+    def process_payment(self, amount):
+        print(f"Paying {amount} using {self.currency} cryptocurrency")
+
+
+payment = Payment(100)
+
+# Pay using credit card
+payment_method = CreditCard()
+payment.pay(payment_method)
+
+# Pay using PayPal
+payment_method = PayPal()
+payment.pay(payment_method)
+
+# Pay using cryptocurrency
+payment_method = CryptoCurrency("Bitcoin")
+payment.pay(payment_method)
+
+
+
